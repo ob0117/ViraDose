@@ -1,0 +1,390 @@
+<!DOCTYPE HTML>
+
+<html lang = "en">
+
+<link rel="stylesheet" href="static/AppStyle.css">
+
+<head>
+  <meta charset = "UTF-8" />
+  <meta name="viewport" content="width=device-width initial-scale=1">
+  <title>ViraDose Project Display</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<div class = "fluid-container">
+
+  <body>
+
+    <!-- INTRODUCTION AND PROJECT DOWNLOAD ---------------------------------------------------------------------->
+    <div class = "container-fluid top-layer">
+        
+        <div class="row section-break">
+
+          <div class="col">
+              <h1> ViraDose: A Novel Application for Facilitating Gene Therapy Dosing </h1>
+              <!-- <a href="CWSF Board.pdf" download target="_blank"> -->
+                <button class="btn btn-light" onclick = "showCWSFDisplay()"> View Canada-Wide Science Fair Exhibit </button>
+              <!-- </a> -->
+          </div>
+
+        </div>
+
+        <!-- CWSF Board PDF Display (toggled with button) ------------------------------->
+        <div class="row" id="pdf" style="display:none">
+          <div class="col" style="margin-bottom:5vmin; height:100vh">
+            <iframe src="static/CWSF Board.pdf" width="100%" height="100%">
+            </iframe>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col">
+            <h2 class = "text-glob" style="margin-bottom:3vmin"> Introduction </h2>
+          </div>
+        </div>
+
+        <div class = "row section-break">
+
+          <div class="col text-glob">
+            <p>
+              Gene therapy is a treatment option for genetic disorders that involves delivering correctional genes to a patient. 
+              Viruses, especially adeno-associated viruses (AAV), are commonly used as gene delivery vectors. 
+              However, high doses of viral vectors may trigger potentially harmful immune responses. 
+              Due to this, there is a lot of detailed and time-consuming research involved in determining the safest dose to 
+              effectively carry out gene therapy.
+            </p>
+            <p>
+              ViraDose is an app which would improve the safety and efficiency of gene therapy clinical trials. 
+              The core idea of the project is to use mathematical models to predict a patient's immune response before the dose is administered. 
+              First, the user must input background information about the most recent animal trial conducted with the treatment. 
+              Using this data, an ideal starting dose for a human clinical trial is calculated. 
+              This dose can then be implemented into mathematical models of the user's choosing, allowing them to view predictions 
+              about the patient's immune response, potential toxicity, or the effectiveness of the treatment. 
+              Although novel, this idea would assist in making gene therapy more viable in mainstream medicine.
+            </p>
+            <p>
+              ViraDose won a Senior Bronze medal at the 2019 Canada-Wide Science Fair, 
+              and was one of the top 3 projects at the Waterloo-Wellington Science and Engineering Fair!
+              The project was coded in Python, using libraries SciPy and Matplotlib to handle solving and graphing differential equations.
+            </p>
+            <p class = "section-break">
+              To learn more about the project and how to use the app, click on "View Canada-Wide Science Fair Exhibit". Try out the app below!
+              A realistic starting value for the Highest Non-Severely Toxic Dose is 2.5 × 10<sup>12</sup> genome copies per kilogram. Try playing around
+              with this value and increasing it by ten-fold increments to see interesting results, especially in the "compare gene expression and toxicity"
+              math model.
+            </p>
+          </div>
+
+        </div>
+
+    </div>
+
+    <!-- THE ACTUAL APP ------------------------------------------------------------------------------------------------------->
+    <form id="app-form"  name="appForm"  method="POST">
+
+        <div class = "container-fluid">
+
+          <div class = "row">
+            <div class = "col">
+              <h2 class="subtitle"> Animal Study Information </h2>
+            </div>
+          </div>
+    
+          <div class = "row">
+
+            <div class = "col col-left">
+                <label class="app-label"> AAV serotype used: </label>
+                <select id="aav-select" name="aavVectors" onchange="changeAAVValues()">
+                  <option> AAV-1 </option>
+                  <option selected="selected"> AAV-2 </option>
+                  <option> AAV-4 </option>
+                  <option> AAV-5 </option>
+                  <option> AAV-6 </option>
+                  <option> AAV-7 </option>
+                  <option> AAV-8 </option>
+                  <option> AAV-9 </option>
+                </select>
+            </div>  
+
+            <div class = "col col-right">
+              <label class="app-label"> Type of animal tested: </label>
+              <select name="animal">
+                <option> Mouse </option>
+                <option> Rat </option>
+                <option> Hamster </option>
+                <option> Ferret </option>
+                <option> Guinea Pig </option>
+                <option> Rabbit </option>
+                <option> Dog </option>
+                <option> Rhesus Monkey </option>
+                <option> Marmoset </option>
+                <option> Squirrel Monkey </option>
+                <option> Baboon </option>
+                <option> Micro Pig </option>
+                <option> Mini Pig </option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class = "row section-break">
+            <div class="col">
+              <label class="app-label"> Highest Non-Severely Toxic Dose (genome copies per kilogram): </label> 
+              <input type="number" style="width:100px" step="any"  min="0" name="hnstdVal" required> 
+              <label class="app-label"> × 10 </label>	<sup><input type="number" style="width:40px"  name="hnstdExp" required></sup>
+            </div>
+          </div>
+
+          <div class = "row" >
+              <div class = "col">
+                  <h2 class="subtitle"> Dose Scaling Factors </h2>
+              </div>
+          </div>
+
+          <div class = "row">
+            <div class = "col col-left adv-set">
+              <label class="app-label"> Scaling weight (kilograms): </label> 
+              <input type="number" value=70 style="width:50px" min="0" step="any"  
+              name="scalingWeight" required>
+              <p>70 kg is used for flat dosing</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class = "col col-left adv-set">
+              <label class="app-label"> Safety factor: </label> 
+              <input type="number" value=50 style="width:50px"  min="0" name="safetyFactor" required>
+              <p>6 for Cancer, 100 for healthy subjects, 50 for other diseases</p>
+            </div>
+          </div>
+
+          <div class="row section-break">
+            <div class="col col-left adv-set">
+              <label class="app-label"> Patient's weight (kilograms): </label> 
+              <input type="number" id="patient-weight" style="width:50px" step="any"  min="0" name="patientWeight" required>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class = "col">
+              <h2 class="subtitle"> Mathematical Model Selection </h2>
+            </div>
+          </div>
+
+          <div class = "row">
+
+            <div class = "col" style="margin-bottom: 2vh">
+              <label class="app-label"> Select a mathematical model: </label>
+              <select id="math-select" name="mathModel" onchange="showMathModelFields()" required>
+                <option hidden disabled selected value> </option>
+                <option> View innate immune response </option>
+                <option> Compare gene expression and toxicity  </option>
+              </select>
+            </div> 
+
+          </div>
+
+          <!-- Model 1 Specific Parameters ------------------------------------------------------------->
+          <div class = "row" style="display:none" id="model1params">
+
+            <div class = "row" style="margin-bottom: 2vh">
+              <div class = "col">
+                  <p style="margin-left: 20vmin; margin-right: 20vmin;">
+                    This model measures the concentration of viral mRNA, type I interferon (IFNs), and antiviral proteins (AVPs)
+                    over time. This signalling pathway model provides an outline of the body's innate immune response to the dose.
+                  </p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col col-left">
+                <label class="app-label"> AAV genome weight (grams): </label> 
+                <input type="number" value=5.1 style="width:100px" step="any"  name="genomeWeightVal" min="0" required> 
+                <label class="app-label"> × 10 </label>	<sup><input type="number" value=-18 style="width:40px" name="genomeWeightExp" required></sup>
+              </div>
+              <div class="col col-right">
+                <label class="app-label"> AAV genome length (base pairs): </label> 
+                <input type="number" value=4700 style="width:100px" step="any" name="genomeLength" min="0" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col col-left">
+                <label class="app-label"> Initial IFN concentration in body (mol/L): </label> 
+                <input type="number" value=10 style="width:50px" step="any" name="IFNinit" min="0" required>
+              </div>
+              <div class="col col-right">
+                <label class="app-label"> Initial AVP concentration in body (mol/L): </label> 
+                <input type="number" value=2 style="width:50px" step="any" name="AVPinit" min="0" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <button class="btn btn-outline-dark" type="button" onclick = "showAdvancedSettings()"> Advanced Settings </button>
+              </div>
+            </div>   
+
+            <!-- advanced settings for model 1 ------------------------------------------------------------>
+            <div class = "row" style="display:none" id="adv-settings">
+
+              <div class="row">                 
+                  <div class="col col-left adv-set">
+                    <label class="app-label"> Activation rate constant of IFN (k2): </label> 
+                    <input type="number" value=0.3 style="width:70px" step="any" name="k2" min="0" required>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Activation rate constant of AVP (k3): </label> 
+                  <input type="number" value=0.1 style="width:70px" step="any" name="k3" min="0" required>
+                </div>
+              </div>
+
+              
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Degradation rate of viral mRNA (d1): </label> 
+                  <input type="number" value=0.1 style="width:70px" step="any" name="d1" min="0" required>
+                </div>                  
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Degradation rate of IFN (d2): </label> 
+                  <input type="number" value=0.7 style="width:70px" step="any" name="d2" min="0" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Degradation rate of AVP (d3): </label> 
+                  <input type="number" value=0.12 style="width:70px" step="any" name="d3" min="0" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Maximal production rate of Hill function of AVP on virus (b1): </label> 
+                  <input type="number" value=10 style="width:70px" step="any" name="b1" min="0" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Maximal production rate of Hill function of IFN (b2): </label> 
+                  <input type="number" value=80 style="width:70px" step="any" name="b2" min="0" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Inhibition coefficient of Hill function of AVP on virus (K1): </label> 
+                  <input type="number" value=33 style="width:70px" step="any" name="capk1" min="0" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Activation coefficient of Hill function of IFN (K2): </label> 
+                  <input type="number" value=0.1 style="width:70px" step="any" name="capk2" min="0" required>
+                </div>                                
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Hill coefficient (n1): </label> 
+                  <input type="number" value=1 style="width:70px" step="any" name="n1" min="0" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col col-left adv-set">
+                  <label class="app-label"> Hill coefficient (n2): </label> 
+                  <input type="number" value=1 style="width:70px" step="any" name="n2" min="0" required>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Model 2 Specific Parameters ------------------------------------------------------------->
+          <div class = "row" style="display:none" id="model2params">
+
+            <div class = "row">
+                <div class = "col" style="margin-left: 20vmin; margin-right: 20vmin; margin-bottom:2vh">
+                    <p>
+                      This model will display two graphs. One outlines the probability of cells achieving gene expression.
+                      The other shows the risk of toxicity due to cell death based on the dose.
+                    </p>
+                </div>
+            </div>
+
+            <div class = "row">
+
+              <div class = "col col-left">
+                <label class="app-label"> Upper limit: </label> 
+                <input id="t" type="number" value=2.00 style="width:100px" step="any" name="t" min="0" required>
+                <p>Upper limit of gene-expressing cells depends on AAV vector.</p>
+              </div>
+
+              <div class = "col col-right" style="width:fit-content">
+                <label class="app-label"> log EC50: </label> 
+                <input id="logc" type="number" value=4.95 style="width:100px" step="any" name="logc" min="0" required>
+                <p>Half-maximal dose depends on AAV vector.</p>                
+              </div>
+
+            </div>
+
+            <div class = "row">
+
+              <div class = "col col-left">
+                <label class="app-label"> Hill Coefficient: </label> 
+                <input type="number" value=1 style="width:50px" step="any" name="h" min="0" required>
+                <p>Hill Coefficient for gene expression prediction.</p>
+                
+                <div class="row">
+                  <div class = "col col-left">
+                    <label class="app-label"> Hill coefficient: </label> 
+                    <input type="number" value=1 style="width:50px" step="any" name="hh" min="0" required>
+                    <p>Hill Coefficient for cell death prediction.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class = "col col-right">
+                <label class="app-label"> Half-maximal toxicity: </label> 
+                <input type="number" value=439770 style="width:100px" step="any" name="c1" min="0" required>
+                <p>Half-maximal toxicity for cell death prediction.</p>
+              </div>
+              
+            </div>
+
+          </div>
+
+          <!-- SUBMIT BUTTON ------------------------------------------------------------------->
+          <div class="row" style="margin:5vh">
+            <div class="col">
+                  <button class="btn btn-light" type="submit"> Calculate Dose and View Data </button>
+            </div>
+          </div>
+    
+        </div>
+    </form>
+
+    <script src="static/script.js"></script>
+
+  </body>
+
+</div>
+
+
+</html>

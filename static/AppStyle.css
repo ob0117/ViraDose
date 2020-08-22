@@ -1,0 +1,77 @@
+body {
+
+    height: auto;
+    font: sans-serif;    
+    background: rgb(105,85,200);
+    background: linear-gradient(209deg, rgba(105,85,200,1) 0%, rgba(177,168,221,1) 42%, rgba(242,240,250,1) 100%);
+}
+
+.col {
+
+    height:auto;
+    text-align:center;
+}
+
+.col-left {
+    text-align: right;
+}
+
+.col-right {
+    text-align: left;
+}
+
+.fluid-container {
+
+    padding: 5vmin;
+}
+
+h2 {
+    font: sans-serif;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 24px;
+    margin-bottom: 3vh;
+}
+
+.top-layer {
+
+    margin-top: 5vh;
+}
+
+.section-break {
+    margin-bottom: 5vh;
+}
+
+.btn {
+    margin: 3vmin;
+}
+
+.text-glob {
+    margin-left: 13vmin;
+    margin-right: 13vmin;
+    text-align: left;
+}
+
+.app-label {
+    font-size: 19px;
+}
+
+.adv-set {
+    margin-right: 37vw;
+}
+
+.graph-heading {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 5vh;
+}
+
+h5 {
+    text-align: center;
+}
+
+h6 {
+    text-align: center;
+}

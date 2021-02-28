@@ -133,8 +133,6 @@ def execute(data):   # function to be called within app.py (obtains html form da
 
             return [dVdt, dIdt, dAdt]
 
-        # original 200, 10, 5
-
         y0 = [Vm, IFN, AVP]   # initial values
         t = np.linspace(0, 200, 500)  # defining time points for input (range and number of points)
 
